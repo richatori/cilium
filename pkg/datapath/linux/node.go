@@ -630,6 +630,12 @@ func (n *linuxNodeHandler) insertNeighbor(newNode *nodeTypes.Node, ifaceName str
 	}
 }
 
+func (n *linuxNodeHandler) NodeNeighInsert(newNode nodeTypes.Node) {
+	n.mutex.Lock()
+	n.insertNeighbor(&newNode, n.getApproriateIfaceName())
+	n.mutex.Unlock()
+}
+
 // Must be called with linuxNodeHandler.mutex held.
 func (n *linuxNodeHandler) deleteNeighbor(oldNode *nodeTypes.Node) {
 	nextHopStr, found := n.neighNextHopByNode[oldNode.Identity()]
@@ -657,6 +663,12 @@ func (n *linuxNodeHandler) deleteNeighbor(oldNode *nodeTypes.Node) {
 			}
 		}
 	}
+}
+
+func (n *linuxNodeHandler) NodeNeighRemove(node nodeTypes.Node) {
+	n.mutex.Lock()
+	n.deleteNeighbor(&node)
+	n.mutex.Unlock()
 }
 
 func (n *linuxNodeHandler) enableIPsec(newNode *nodeTypes.Node) {

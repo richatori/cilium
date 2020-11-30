@@ -116,6 +116,20 @@ func (h handler) NodeConfigurationChanged(_ datapath.LocalNodeConfiguration) err
 	return nil
 }
 
+// NodeNeighInsert implements datapath.NodeHandler.NodeNeighInsert. It is a
+// no-op.
+func (h handler) NodeNeighInsert(_ types.Node) {
+	// no-op
+	return
+}
+
+// NodeNeighRemove implements datapath.NodeHandler.NodeNeighRemove. It is a
+// no-op.
+func (h handler) NodeNeighRemove(_ types.Node) {
+	// no-op
+	return
+}
+
 // Close frees handler resources.
 func (h *handler) Close() {
 	close(h.stop)
